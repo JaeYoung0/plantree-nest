@@ -39,6 +39,7 @@ export class AuthController {
       last_name: body.last_name,
       email: body.email,
       password: hash,
+      role: { id: 1 },
     });
   }
 
