@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  backend:
+    build: .
+    ports:
+      - 8000:3000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: Asia/Seoul
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_general_ci
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - 33066:3306
