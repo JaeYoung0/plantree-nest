@@ -12,4 +12,22 @@ export class OrderService extends AbstractService<Order> {
   ) {
     super(orderRepository);
   }
+
+  async paginate(page = 1, options?): Promise<any> {
+    const result = await super.paginate(page, options);
+
+    const { data, meta } = result;
+
+    return {
+      data: data.map((order: Order) => ({
+        id: order.id,
+        name: order.name,
+        email: order.email,
+        total: order.total,
+        created_at: order.created_at,
+        order_items: order.order_items,
+      })),
+      meta,
+    };
+  }
 }
