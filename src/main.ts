@@ -19,9 +19,13 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('plantree-하루하늘')
     .build();
-
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
+
+  app.enableCors({
+    origin: 'http://localhost:3001',
+    credentials: true,
+  });
 
   await app.listen(3000);
 }
