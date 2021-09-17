@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -10,10 +11,18 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
-  app.enableCors({
-    origin: 'http://localhost:4200',
-    credentials: true,
-  });
+
+  // generate swagger document
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('plantree swagger')
+    .setDescription('text try')
+    .setVersion('1.0')
+    .addTag('plantree-하루하늘')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(3000);
 }
 bootstrap();
